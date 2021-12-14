@@ -20,6 +20,19 @@ object Day14 {
 
     def steps(i: Int): Input = if (i > 0) step().steps(i - 1) else this
 
+    def pairs = {
+      val ts = 0.until(sequence.size).zip(1.until(sequence.size)).map(t => (sequence(t._1), sequence(t._2)))
+      var m: Map[(Char, Char), Long] = Map().withDefaultValue(0)
+      ts.foreach(t => {
+        m = m.updated(t, m(t) + 1)
+      })
+      m
+    }
+
+    def formatPairs = {
+      pairs.toList.sortBy(t => t._1.toString()).map(t => s"${t._1._1}${t._1._2} -> ${t._2}").mkString("\n")
+    }
+
   }
 
   case class InputB(mappings: Map[(Char, Char), Char], sequence: Array[Char]) {
@@ -46,6 +59,7 @@ object Day14 {
       pairs.foreach(t => {
         val p = t._1
         val n = t._2
+        val key = "" + p._1 + p._2
         val c = mappings(p)
         val left = (p._1, c)
         val right = (c, p._2)
@@ -75,7 +89,9 @@ object Day14 {
 
     @tailrec
     final def steps(i: Int): InputB2 = if(i == 0) this else step().steps(i-1)
-
+    def formatPairs = {
+      pairs.toList.sortBy(t => t._1.toString()).map(t => s"${t._1._1}${t._1._2} -> ${t._2}").mkString("\n")
+    }
   }
 
   def parse(file: String): Input = {
@@ -98,8 +114,13 @@ object Day14 {
     val lines = scala.io.Source.fromFile(file).getLines().map(_.trim)
     val sequence = lines.takeWhile(_.size > 0).next.toArray
     val mappings = lines.map(l => l.split("->").map(_.trim)).filter(_.size == 2).map(ar => ((ar(0)(0), ar(0)(1)), ar(1)(0))).toMap
-    val pairs = 0.until(sequence.size).zip(1.until(sequence.size)).map(t => (sequence(t._1), sequence(t._2))).map((_, 1L)).toMap.withDefaultValue(0L)
-    InputB2(mappings, pairs, (sequence(0), sequence(sequence.length - 1)))
+    val ts = 0.until(sequence.size).zip(1.until(sequence.size)).map(t => (sequence(t._1), sequence(t._2)))
+    var m: Map[(Char, Char), Long] = Map().withDefaultValue(0)
+    ts.foreach(t => {
+      m = m.updated(t, m(t) + 1)
+    })
+    m
+    InputB2(mappings, m, (sequence(0), sequence(sequence.length - 1)))
   }
 
   def r(s: List[Char]) = {
@@ -117,16 +138,37 @@ object Day14 {
     s.toList.distinct.map(c => (c, s.count(_ == c))).toMap
   }
 
-  def main(args: Array[String]): Unit = {
-    val sequence = parseB2("sample14.txt").steps(10)
-    println(sequence.pairs)
-    println(sequence.count())
-    println(sequence.result)
+  def compare(m0: Map[(Char, Char), Long], m1: Map[(Char, Char), Long]): Boolean = {
+    if(m0.size != m1.size) {
+      println(s"size mismatch: ${m0.size} and ${m1.size}")
+      return false;
+    }
+    m0.keys.foreach {t => {
+      if(m0(t) != m1(t)) {
+        println(s"key mismatch ${t._1}${t._2} -> ${m0(t)} and ${m1(t)}")
+        return false
+      }
+    } }
+    true;
+  }
 
-//    println(check("NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"))
-//    val after3 = "NBBBCNCCNBBNBNBBCHBHHBCHB"
-//    println(check(after3))
-//    println(check("NBCCNBBBCBHCB"))
+  def main(args: Array[String]): Unit = {
+    val input = "sample14.txt"
+    val sequenceb2 = parseB2(input).steps(40)
+
+    println(sequenceb2.result == 2188189693529L)
+//    val sequence1 = parse(input)
+//    2.until(10).foreach{ i =>
+//      val s2b = sequenceb2.steps(i).pairs
+//      val sa = sequence1.steps(i).pairs
+//      if(!compare(s2b, sa)) {
+//        println(s"for index $i")
+//        println(sequence1.steps(i-1).sequence.mkString(""))
+//        println(sequence1.steps(i).sequence.mkString(""))
+//        System.exit(0)
+//      }
+//    }
+
   }
 
 }
