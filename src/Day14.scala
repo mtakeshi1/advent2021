@@ -61,7 +61,7 @@ object Day14 {
 
     def numChars(): Map[Char, Long] = {
       val m: Map[Char, Long] = Map().withDefaultValue(0)
-      sequence.foldLeft(m)((map, c) => map.updated(c, map(c) + 1)  )
+      sequence.foldLeft(m)((map, c) => map.updated(c, map(c) + 1))
     }
 
     def steps(i: Int): InputB = if (i > 0) step().steps(i - 1) else this
@@ -176,20 +176,20 @@ object Day14 {
   def main(args: Array[String]): Unit = {
     val input = "input14.txt"
     var sequenceb2: InputB2 = parseB2(input)
-//    var sequence1: InputB = parseB(input)
-//    var i = 1;
-//    while (true) {
-//      sequence1 = sequence1.step()
-//      sequenceb2 = sequenceb2.step()
-//
-//      if (!compare(sequence1.numChars(), sequenceb2.numChars())) {
-//        sys.error(s"after $i steps, it messed up")
-//      } else {
-//        println(s"${new Date()}: $i -> ${sequenceb2.count().values.sum}")
-//      }
-//      i = i + 1
-//    }
-println(sequenceb2.steps(40).result)
+    //    var sequence1: InputB = parseB(input)
+    //    var i = 1;
+    //    while (true) {
+    //      sequence1 = sequence1.step()
+    //      sequenceb2 = sequenceb2.step()
+    //
+    //      if (!compare(sequence1.numChars(), sequenceb2.numChars())) {
+    //        sys.error(s"after $i steps, it messed up")
+    //      } else {
+    //        println(s"${new Date()}: $i -> ${sequenceb2.count().values.sum}")
+    //      }
+    //      i = i + 1
+    //    }
+    println(sequenceb2.steps(40).result)
     //    2.until(10).foreach{ i =>
     //      val s2b = sequenceb2.steps(i).pairs
     //      val sa = sequence1.steps(i).pairs
