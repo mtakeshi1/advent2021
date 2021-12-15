@@ -1,3 +1,4 @@
+import java.util.Date
 import scala.annotation.tailrec
 
 object Day14 {
@@ -49,13 +50,27 @@ object Day14 {
       InputB(mappings, output)
     }
 
+    def pairs = {
+      val ts = 0.until(sequence.size).zip(1.until(sequence.size)).map(t => (sequence(t._1), sequence(t._2)))
+      var m: Map[(Char, Char), Long] = Map().withDefaultValue(0)
+      ts.foreach(t => {
+        m = m.updated(t, m(t) + 1)
+      })
+      m
+    }
+
+    def numChars(): Map[Char, Long] = {
+      val m: Map[Char, Long] = Map().withDefaultValue(0)
+      sequence.foldLeft(m)((map, c) => map.updated(c, map(c) + 1)  )
+    }
+
     def steps(i: Int): InputB = if (i > 0) step().steps(i - 1) else this
 
   }
 
   case class InputB2(mappings: Map[(Char, Char), Char], pairs: Map[(Char, Char), Long], borders: (Char, Char)) {
     def step() = {
-      var nPairs : Map[(Char, Char), Long]= Map().withDefaultValue(0L)
+      var nPairs: Map[(Char, Char), Long] = Map().withDefaultValue(0L)
       pairs.foreach(t => {
         val p = t._1
         val n = t._2
@@ -69,8 +84,9 @@ object Day14 {
       InputB2(mappings, nPairs, borders)
     }
 
-    def count() = {
-      var c: Map[Char, Long] = Map(borders._1 -> 1L, borders._2 -> 1L).withDefaultValue(0L)
+    def count(): Map[Char, Long] = {
+      var c: Map[Char, Long] = Map(borders._1 -> 1L).withDefaultValue(0L)
+      c = c.updated(borders._2, 1 + c(borders._2))
       pairs.foreach(p => {
         val (a, b) = p._1
         val n = p._2
@@ -88,10 +104,14 @@ object Day14 {
     }
 
     @tailrec
-    final def steps(i: Int): InputB2 = if(i == 0) this else step().steps(i-1)
+    final def steps(i: Int): InputB2 = if (i == 0) this else step().steps(i - 1)
+
     def formatPairs = {
       pairs.toList.sortBy(t => t._1.toString()).map(t => s"${t._1._1}${t._1._2} -> ${t._2}").mkString("\n")
     }
+
+    def numChars(): Map[Char, Long] = count()
+
   }
 
   def parse(file: String): Input = {
@@ -138,36 +158,48 @@ object Day14 {
     s.toList.distinct.map(c => (c, s.count(_ == c))).toMap
   }
 
-  def compare(m0: Map[(Char, Char), Long], m1: Map[(Char, Char), Long]): Boolean = {
-    if(m0.size != m1.size) {
+  def compare(m0: Map[Char, Long], m1: Map[Char, Long]): Boolean = {
+    if (m0.size != m1.size) {
       println(s"size mismatch: ${m0.size} and ${m1.size}")
       return false;
     }
-    m0.keys.foreach {t => {
-      if(m0(t) != m1(t)) {
-        println(s"key mismatch ${t._1}${t._2} -> ${m0(t)} and ${m1(t)}")
+    m0.keys.foreach { t => {
+      if (m0(t) != m1(t)) {
+        println(s"key mismatch ${t} -> ${m0(t)} and ${m1(t)}")
         return false
       }
-    } }
+    }
+    }
     true;
   }
 
   def main(args: Array[String]): Unit = {
-    val input = "sample14.txt"
-    val sequenceb2 = parseB2(input).steps(40)
-
-    println(sequenceb2.result == 2188189693529L)
-//    val sequence1 = parse(input)
-//    2.until(10).foreach{ i =>
-//      val s2b = sequenceb2.steps(i).pairs
-//      val sa = sequence1.steps(i).pairs
-//      if(!compare(s2b, sa)) {
-//        println(s"for index $i")
-//        println(sequence1.steps(i-1).sequence.mkString(""))
-//        println(sequence1.steps(i).sequence.mkString(""))
-//        System.exit(0)
+    val input = "input14.txt"
+    var sequenceb2: InputB2 = parseB2(input)
+//    var sequence1: InputB = parseB(input)
+//    var i = 1;
+//    while (true) {
+//      sequence1 = sequence1.step()
+//      sequenceb2 = sequenceb2.step()
+//
+//      if (!compare(sequence1.numChars(), sequenceb2.numChars())) {
+//        sys.error(s"after $i steps, it messed up")
+//      } else {
+//        println(s"${new Date()}: $i -> ${sequenceb2.count().values.sum}")
 //      }
+//      i = i + 1
 //    }
+println(sequenceb2.steps(40).result)
+    //    2.until(10).foreach{ i =>
+    //      val s2b = sequenceb2.steps(i).pairs
+    //      val sa = sequence1.steps(i).pairs
+    //      if(!compare(s2b, sa)) {
+    //        println(s"for index $i")
+    //        println(sequence1.steps(i-1).sequence.mkString(""))
+    //        println(sequence1.steps(i).sequence.mkString(""))
+    //        System.exit(0)
+    //      }
+    //    }
 
   }
 
