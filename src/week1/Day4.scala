@@ -1,3 +1,5 @@
+package week1
+
 object Day4 {
 
   case class Board(elements: List[List[Int]]) {

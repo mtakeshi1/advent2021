@@ -1,3 +1,5 @@
+package week2
+
 object Day13 {
 
   object Paper {
@@ -15,9 +17,9 @@ object Day13 {
       val toInvert = dots.filter(_._2 > y)
       val foldSize = maxY - y
 
-      val inverted = toInvert.map(t => (t._1, y-(t._2 - y)))
+      val inverted = toInvert.map(t => (t._1, y - (t._2 - y)))
       assert(inverted.forall(_._2 <= y))
-      Paper(intact ++ inverted, maxX, y-1)
+      Paper(intact ++ inverted, maxX, y - 1)
     }
 
     def foldX(x: Int) = {
@@ -28,7 +30,7 @@ object Day13 {
       val inverted = toInvert.map(t => (x - (t._1 - x), t._2))
       assert(inverted.forall(_._1 <= x))
       assert(inverted.forall(_._1 >= 0))
-      Paper(intact ++ inverted, x-1, maxY)
+      Paper(intact ++ inverted, x - 1, maxY)
     }
 
     def fold(t: (Int, Int)) = {
@@ -66,29 +68,31 @@ object Day13 {
 
   def main(args: Array[String]): Unit = {
     val (paper, instructions) = parse("input13.txt")
-        def applyFolds(p: Paper, ins: List[(Int, Int)]): Paper = {
-          println(p.print())
-          println(p.dots.size)
 
-          ins match {
-            case Nil => p
-            case h :: t => applyFolds(p.fold(h), t)
-          }
-        }
-        val r = applyFolds(paper, instructions)
-        println(r.print())
+    def applyFolds(p: Paper, ins: List[(Int, Int)]): Paper = {
+      println(p.print())
+      println(p.dots.size)
+
+      ins match {
+        case Nil => p
+        case h :: t => applyFolds(p.fold(h), t)
+      }
+    }
+
+    val r = applyFolds(paper, instructions)
+    println(r.print())
     //    println(r.dots.size)
     // 1 - shoult not apply all instructions
     // 2 - folds are not necessarily in half
-//    val paper = Paper(Set((0, 4), (0, 5)), 0, 5)
-//    println(paper.print())
-//    println("------------------------------------------------------------")
-//    println(paper.foldY(7).print())
-//    println(paper.fold((0, 3)).print())
-//    println(paper.fold((0, 3)).dots.size)
-//    println("------------------------------------------------------------")
-//    val afterOne = paper.fold(instructions.head)
-//    println(afterOne.dots.size)
+    //    val paper = Paper(Set((0, 4), (0, 5)), 0, 5)
+    //    println(paper.print())
+    //    println("------------------------------------------------------------")
+    //    println(paper.foldY(7).print())
+    //    println(paper.fold((0, 3)).print())
+    //    println(paper.fold((0, 3)).dots.size)
+    //    println("------------------------------------------------------------")
+    //    val afterOne = paper.fold(instructions.head)
+    //    println(afterOne.dots.size)
   }
 
 

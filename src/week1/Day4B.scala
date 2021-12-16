@@ -1,6 +1,8 @@
+package week1
+
 object Day4B {
 
-  import Day4._
+  import Day4.*
 
 
   def main(args: Array[String]): Unit = {

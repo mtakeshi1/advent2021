@@ -1,3 +1,5 @@
+package week2
+
 object Day8 {
 
   /*
@@ -52,12 +54,14 @@ b    .  b    .  .    c  b    c  b    c
 
     val outputSignals = st.split("[|]")(1).split(" ").map(_.trim).filter(_.size > 0).map(_.toList.distinct.sorted).toList
     val mapping = Map(zero -> 0, one -> 1, two -> 2, three -> 3, four -> 4, five -> 5, six -> 6, seven -> 7, eight -> 8, nine -> 9)
+
     def calc(digits: List[List[Char]], acc: Int = 0): Int = {
       digits match {
         case Nil => acc
         case head :: next => calc(next, acc * 10 + mapping(head))
       }
     }
+
     calc(outputSignals)
   }
 
@@ -72,8 +76,8 @@ b    .  b    .  .    c  b    c  b    c
   }
 
   def main(args: Array[String]): Unit = {
-//    println(parseB("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"))
-//    println(scala.io.Source.fromFile("sample8.txt").getLines().map(_.trim).map(find).sum)
+    //    println(parseB("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"))
+    //    println(scala.io.Source.fromFile("sample8.txt").getLines().map(_.trim).map(find).sum)
     println(scala.io.Source.fromFile("input8.txt").getLines().map(_.trim).map(parseB).sum)
   }
 

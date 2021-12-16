@@ -1,3 +1,5 @@
+package week1
+
 object Day5B {
 
   def parse(input: List[String]): List[((Int, Int), (Int, Int))] = {

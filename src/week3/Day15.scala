@@ -1,4 +1,4 @@
-import scala.collection.SortedSet
+package week3
 
 object Day15 {
 
@@ -7,12 +7,15 @@ object Day15 {
   }
 
   case class Input(dangerLevels: Array[Array[Int]]) {
-    val destination = (dangerLevels.size-1, dangerLevels(0).size-1)
+    val destination = (dangerLevels.size - 1, dangerLevels(0).size - 1)
 
     trait Fringe {
       def hasVisited(t: (Int, Int)): Boolean
+
       def updateCost(t: (Int, Int), nc: Int): Fringe
+
       def next(): ((Int, Int, Int), Fringe)
+
       def isEmpty: Boolean
     }
 
@@ -41,16 +44,16 @@ object Day15 {
     }
 
     def neighboorsOf(p: (Int, Int)): Iterable[(Int, Int)] = {
-      List((p._1 - 1, p._2), (p._1 + 1, p._2), (p._1, p._2-1), (p._1, p._2+1)).filter(_._1 >= 0).filter(_._2 >= 0).filter(_._1 <= destination._1).filter(_._2 <= destination._2)
+      List((p._1 - 1, p._2), (p._1 + 1, p._2), (p._1, p._2 - 1), (p._1, p._2 + 1)).filter(_._1 >= 0).filter(_._2 >= 0).filter(_._1 <= destination._1).filter(_._2 <= destination._2)
     }
 
     def cost(p: (Int, Int)) = dangerLevels(p._1)(p._2)
 
     def pickBest(a: Option[PartialPath], b: Option[PartialPath]): Option[PartialPath] = {
       (a, b) match {
+        case (None, None) => None
         case (None, r) => r
         case (r, None) => r
-        case (None, None) => None
         case (Some(l), Some(r)) => if (l.costFoFar < r.costFoFar) Some(l) else Some(r)
       }
     }
@@ -58,7 +61,7 @@ object Day15 {
     def findPath(): Int = {
       var visiting = (0, 0)
       var costSoFar = 0
-      var fringe:Fringe = FringeImpl(knownCosts = Map(visiting -> 0))
+      var fringe: Fringe = FringeImpl(knownCosts = Map(visiting -> 0))
       while (visiting != destination) {
         fringe = neighboorsOf(visiting).filterNot(fringe.hasVisited).foldRight(fringe)((p, nf) => nf.updateCost(p, costSoFar + cost(p)))
         val next = fringe.next()
@@ -70,12 +73,13 @@ object Day15 {
       costSoFar
     }
 
-    def largeInput():Input = {
-      def clean(i: Int) = if(i > 9) i%9 else i
-      val newInput:Array[Array[Int]] = Array.ofDim(this.dangerLevels.length * 5, this.dangerLevels(0).length * 5)
+    def largeInput(): Input = {
+      def clean(i: Int) = if (i > 9) i % 9 else i
+
+      val newInput: Array[Array[Int]] = Array.ofDim(this.dangerLevels.length * 5, this.dangerLevels(0).length * 5)
       0.until(5).foreach(mx => 0.until(5).foreach(my => {
         0.until(dangerLevels.length).foreach(x => 0.until(dangerLevels(0).length).foreach(y => {
-          newInput(mx*dangerLevels.length + x)(my*dangerLevels(0).length + y) = clean(dangerLevels(x)(y) + mx + my)
+          newInput(mx * dangerLevels.length + x)(my * dangerLevels(0).length + y) = clean(dangerLevels(x)(y) + mx + my)
         }))
       }))
       Input(newInput)
@@ -88,8 +92,8 @@ object Day15 {
   }
 
   def main(args: Array[String]): Unit = {
-    val input =  parse("input15.txt")
-//    println(input.largeInput().formatDangerLevels())
+    val input = parse("input15.txt")
+    //    println(input.largeInput().formatDangerLevels())
     println(input.largeInput().findPath())
   }
 

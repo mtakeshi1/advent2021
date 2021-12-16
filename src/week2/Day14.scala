@@ -1,4 +1,5 @@
-import java.util.Date
+package week2
+
 import scala.annotation.tailrec
 
 object Day14 {

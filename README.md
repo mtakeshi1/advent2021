@@ -12,3 +12,10 @@
 
 - priority queue should keep the entries with the same priority
 - generation of the large input should use i%9
+
+## problem 16
+
+- misunderstood how length field should be evaluated
+- missed the part where the input might contain irrelevant data (trailing zeroes)
+- overflow got me again =(
+- multi-packs int parsing failed due to error in shifting 

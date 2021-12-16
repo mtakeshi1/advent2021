@@ -1,4 +1,4 @@
-import scala.annotation.tailrec
+package week2
 
 object Day10 {
 
@@ -69,11 +69,11 @@ object Day10 {
     calcPart2(rem)
   }
 
-    def part2(file: String): Long = {
-      val input = scala.io.Source.fromFile(file).getLines().map(_.trim).map(part2line).filter(_ != 0).toList.sorted
-      println(input)
-      input(input.size/2)
-    }
+  def part2(file: String): Long = {
+    val input = scala.io.Source.fromFile(file).getLines().map(_.trim).map(part2line).filter(_ != 0).toList.sorted
+    println(input)
+    input(input.size / 2)
+  }
 
   def main(args: Array[String]): Unit = {
     //    println(calculateIllegal(List(), input = "[({(<(())[]>[[{[]{<()<>>".toList))

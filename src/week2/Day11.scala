@@ -1,5 +1,6 @@
-object Day11 {
+package week2
 
+object Day11 {
 
 
   def parse(file: String): List[List[Int]] = scala.io.Source.fromFile(file).getLines().map(_.trim).map(_.toList.map(_ - '0')).toList
@@ -17,15 +18,16 @@ object Day11 {
   val allIndexes: Seq[(Int, Int)] = 0.until(10).flatMap(x => 0.until(10).map(y => (x, y)))
 
   def applyFlashes(input: List[List[Int]]): List[List[Int]] = {
-    var copy =  input.map(_.map(_ + 1))
+    var copy = input.map(_.map(_ + 1))
     var justShined = allIndexes.find(t => copy(t._1)(t._2) > 9 && input(t._1)(t._2) < 10)
     while (justShined.isDefined) {
-      val (x,y) = justShined.get
+      val (x, y) = justShined.get
       copy = applyFlash(x, y, copy)
       justShined = allIndexes.find(t => copy(t._1)(t._2) > 9 && input(t._1)(t._2) < 10)
     }
     copy
   }
+
   def applyFlashR(acc: List[List[Int]], shined: Set[(Int, Int)] = Set()): List[List[Int]] = {
     allIndexes.find(t => acc(t._1)(t._2) > 9 && !shined.contains(t)) match {
       case Some((x, y)) => applyFlashR(applyFlash(x, y, acc), shined + ((x, y)))
@@ -36,7 +38,7 @@ object Day11 {
 
   def countFlashes(input: List[List[Int]]): (Int, List[List[Int]]) = {
     val counts = input.map(_.count(_ > 9)).sum
-    (counts, input.map(_.map(el => if(el > 9) 0 else el)))
+    (counts, input.map(_.map(el => if (el > 9) 0 else el)))
   }
 
   def step(input: List[List[Int]]) = {
@@ -44,17 +46,17 @@ object Day11 {
     countFlashes(copy)
   }
 
-  def steps(n: Int, input:List[List[Int]]): Int = {
-    if(n == 0) 0
+  def steps(n: Int, input: List[List[Int]]): Int = {
+    if (n == 0) 0
     else {
       val (c, i) = step(input)
-      c + steps(n-1, i)
+      c + steps(n - 1, i)
     }
   }
 
   def findSync(input: List[List[Int]], n: Int = 0): Int = {
-    if(n > 1000) sys.error("err")
-    if(input.forall(_.forall(_ == 0))) 0
+    if (n > 1000) sys.error("err")
+    if (input.forall(_.forall(_ == 0))) 0
     else 1 + findSync(step(input)._2)
   }
 

@@ -1,3 +1,5 @@
+package week1
+
 object Day6 {
 
   def parse(line: String) = {
@@ -10,15 +12,15 @@ object Day6 {
     val output = new Array[Long](input.length)
     output(6) = input(0)
     output(8) = input(0)
-    0.until(9).foreach (i => {
-      output(i) += input(i+1)
+    0.until(9).foreach(i => {
+      output(i) += input(i + 1)
     })
     output
   }
 
   def stepR(input: Array[Long], numSteps: Int): Array[Long] = {
-    if(numSteps == 0) input
-    else stepR(step(input), numSteps-1)
+    if (numSteps == 0) input
+    else stepR(step(input), numSteps - 1)
   }
 
 
