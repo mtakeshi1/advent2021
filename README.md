@@ -19,3 +19,8 @@
 - missed the part where the input might contain irrelevant data (trailing zeroes)
 - overflow got me again =(
 - multi-packs int parsing failed due to error in shifting 
+
+## problem 17
+
+- partb should include negative velocities for Y
+- not many mistakes today, as I brute-forced my way 

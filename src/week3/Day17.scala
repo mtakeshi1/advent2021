@@ -24,8 +24,6 @@ object Day17 {
     1.until(range.max).find(x => maxXDistance(x) >= range.min).get
   }
 
-  def maxX(range: Range) = range.max
-
   def isWithin(xRange: Range, yRange: Range)(x: Int, y: Int): Boolean = {
     val maxTX = solve2Equation(-0.5, (2 * x + 1) / 2, -xRange.min).filter(_ > 0).map(Math.ceil)
     val minTX = solve2Equation(-0.5, (2 * x + 1) / 2, -xRange.max).filter(_ > 0).map(Math.floor)
@@ -64,7 +62,7 @@ object Day17 {
   }
 
   def findRange(xRange: Range, yRange: Range) = {
-    val cx = minX(xRange).to(maxX(xRange))
+    val cx = minX(xRange).to(xRange.max)
     val cy = calcCandidatesY(yRange)
     for {
       x <- cx
