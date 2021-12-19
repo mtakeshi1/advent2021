@@ -24,3 +24,9 @@
 
 - partb should include negative velocities for Y
 - not many mistakes today, as I brute-forced my way 
+
+## problem 18
+
+- tried to use Either[Pair, Int] instead of trait Node / case class INode / case class Leaft and ended up messing up
+- did not pay enough attention to the operation being non comunitative
+- 
