@@ -29,4 +29,10 @@
 
 - tried to use Either[Pair, Int] instead of trait Node / case class INode / case class Leaft and ended up messing up
 - did not pay enough attention to the operation being non comunitative
+
+## problem 19
+
+## problem 20
+
+- image is infinite but the pixels out of bounds can 'change' after enhancing (need to keep track of what they are)
 - 
