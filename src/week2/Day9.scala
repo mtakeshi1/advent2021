@@ -63,13 +63,5 @@ object Day9 {
 
   def read(file: String): Array[Array[Int]] = scala.io.Source.fromFile(file).getLines().map(_.trim).map(_.toCharArray.map(_ - '0')).toArray
 
-  given Conversion[Array[Array[Int]], Input] = Input(_)
-
-
-  def main(args: Array[String]): Unit = {
-    val input = read("input9.txt")
-    println(input.findBasins().map(_.size).sorted.reverse.take(3).product)
-  }
-
 
 }

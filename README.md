@@ -35,4 +35,7 @@
 ## problem 20
 
 - image is infinite but the pixels out of bounds can 'change' after enhancing (need to keep track of what they are)
-- 
+
+## problem 21
+
+- misread the problem (sent the low score and not the high score)
