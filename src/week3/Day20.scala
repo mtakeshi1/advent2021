@@ -1,7 +1,6 @@
 package week3
 
 import scala.annotation.tailrec
-import scala.concurrent.Future
 
 object Day20 {
 
@@ -21,6 +20,7 @@ object Day20 {
     def mask = 1
   }
 
+  @tailrec
   def binaryToInt(seq: List[Binary], acc: Int = 0): Int = {
     assert(seq.size < 32)
     seq match {
@@ -32,9 +32,7 @@ object Day20 {
   case class V2(x: Int, y: Int)
 
   case class Image(pixels: Map[V2, Binary], dimensions: V2, oob: Binary = Zero) {
-    def get(v2: V2): Binary = {
-      pixels.get(v2).getOrElse(oob)
-    }
+    def get(v2: V2): Binary = pixels.getOrElse(v2, oob)
 
     def pixelBinary(v2: V2): Int = {
       val value: Seq[Binary] = for {
@@ -70,7 +68,7 @@ object Day20 {
     }
   }
 
-  def parse(file: String) = {
+  def parse(file: String): (Array[Binary], Image) = {
     val lines = scala.io.Source.fromFile(file).getLines().map(_.trim)
     val pixelMap: Array[Binary] = lines.next().map(c => if (c == '.') Zero else One).toArray
     assert(lines.next().isBlank)
