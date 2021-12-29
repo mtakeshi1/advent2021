@@ -39,3 +39,8 @@
 ## problem 21
 
 - misread the problem (sent the low score and not the high score)
+
+## problem 24
+
+- misunderstood how the problem should be solved. Tried interpreting with constand folding and other compiler optimization techniques but wasnt enough
+- had to remove all memoization and replace unmodifiable collections with mutable ones (OOM)
