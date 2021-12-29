@@ -44,3 +44,7 @@
 
 - misunderstood how the problem should be solved. Tried interpreting with constand folding and other compiler optimization techniques but wasnt enough
 - had to remove all memoization and replace unmodifiable collections with mutable ones (OOM)
+
+## problem 25
+
+- off by one (misscounted the steps)
